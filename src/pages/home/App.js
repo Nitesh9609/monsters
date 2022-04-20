@@ -6,12 +6,16 @@ import Search from '../../components/search/search.component';
 import './App.css'
 import React from 'react'
 
+
+// Parent Component
 class App extends React.Component{
  /**Step 1 */
  constructor(){
+  
     super()
     this.state = {
-      users: []
+      users: [],
+      searchValue:''
     }
   }
   /**Step 4 */
@@ -28,14 +32,24 @@ class App extends React.Component{
     )
   }
 
-  /**Step 2 */
+  // for Onchange Function in Search
+  handleOnChange = (event) => {
+    this.setState({searchValue:event.target.value})
+  }
+  
   render(){
+    const {users,searchValue } = this.state
+    const filteredMonsters = users.filter(
+      monster => monster.name.toLowerCase().includes(searchValue.toLowerCase()) || monster.email.toLowerCase().includes(searchValue.toLowerCase())
+    )
+    
+    
     /**Step 3 */
     return(
       <div className="App">
         <h1>Monsters Rollodex</h1>
-        <Search />
-        <CardList monsters={this.state.users}/>
+        <Search changing = {this.handleOnChange}/>
+        <CardList monsters={filteredMonsters}/>
       </div>
     )
   }
